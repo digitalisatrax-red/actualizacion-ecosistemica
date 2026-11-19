@@ -316,6 +316,12 @@ SL0.forEach(s=>{const f=s.modes.find(m=>m.interp);if(f)s.modes.forEach(m=>{if(!m
 /* Requested map-view adjustments */
 (function(){
  try{
+  /* La altitud se muestra solo en la vista de relieve, no como fondo de las demas capas. */
+  if(typeof SL!=='undefined'&&SL&&SL.forEach)SL.forEach(function(sl,si){
+   ((sl&&sl.modes)||[]).forEach(function(m){
+    if(m&&m.L&&m.L.alt!==undefined&&!(m.leg==='alt'&&si>0))delete m.L.alt;
+   });
+  });
   if(typeof TEX!=='undefined')delete TEX.core;
   if(typeof LEG!=='undefined')delete LEG.core;
   if(typeof order!=='undefined'){var oi=order.indexOf('core');if(oi>=0)order.splice(oi,1)}
